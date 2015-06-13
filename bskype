@@ -1,7 +1,7 @@
-@Echo off & cls & color 0B
+@Echo off & cls
 Mode con cols=72 lines=10
 
-Set Title=Skype Starter and Killer 2015
+Set Title=Skype Starter and Killer
 Set TmpFile=TmpFile.txt
 Set Resultat=KillResult.txt
 If Exist %TmpFile% Del %TmpFile%
@@ -13,9 +13,9 @@ set SkypeUsername=Username
 set SkypePassword=Password
 set SkypeLogin=/username:%SkypeUsername% /password:%SkypePassword% /nosplash /minimized
 ::set Available=Calc Chrome Notepad Skype
-::*******************************************************************************************
+
 :menulOOP
-Cls & color 0B
+Cls
 Title %Title%
 echo.
 echo.      ==========================Menu============================
@@ -26,37 +26,36 @@ echo.      ==========================================================
 set option=
 echo. & set /p option=Choose an option or hit ENTER to quit: || GOTO :EOF
 echo. & call :menu_[%option%]
-GOTO:menuLOOP
-::********************************************************************************************
-:menu_[1] Skype Status AND AutoConnect question
+goto :menuLOOP
+
+:menu_[1] Skype Status AND AutoConnect
+cls
 Title  %SkypeName% Status...
-cls & color 0B
 echo Checking if %SkypeName% is running or not...
 FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %SkypeExe%"') DO IF %%x == %SkypeExe% goto FOUND
-cls & color 0C
 echo %SkypeName% is not running.
-echo Cliquer sur une touche pour lancer "%SkypeName%"
+echo Type any key to launch "%SkypeName%"
 pause>nul
-cls & color 0A
 echo Launching %SkypeName%...
 start "" /b /min /LOW %SkypeExe% /nosplash /minimized >nul
 ping 192.0.2.2 -n 1 -w 5000>nul 2>nul
 goto FOUND
+goto CHOICE
 
+cls
+Title AutoConnecting
 :CHOICE
-set /P Want2Connect=Do you want to be connected to %SkypeUsername% [Y/N]?
+set /P Want2Connect=Connect with %SkypeUsername% [Y/N]?
 if /I "%Want2Connect%" EQU "Y" goto :AutoConnect
 if /I "%Want2Connect%" EQU "N" goto :FIN
-goto :choice
+goto CHOICE
 
 :AutoConnect
-Cls & Color 0C
-Title AutoConnecting to %SkypeName% with %SkypeUsername%
+Cls
+Title AutoConnecting with %SkypeUsername%
 echo Killing any instance of %SkypeName%
 %SkypeExe% /Shutdown
 pause>nul
-echo.
-cls & color 0B
 echo.
 FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %SkypeExe%"') DO IF %%x == %SkypeExe% goto FOUND
 start "" /b /min /LOW %SkypeExe% %SkypeLogin% >nul
@@ -65,24 +64,26 @@ ping 192.0.2.2 -n 1 -w 3000>nul 2>nul
 goto CONNECTED
 
 :CONNECTED
-cls & color 0A
+cls
 echo You are now connected to %SkypeUsername%
 pause>nul
-GOTO:menuLOOP
+goto :menuLOOP
 
 :FOUND
-cls & color 0A
+cls
 echo %SkypeName% is running.
-goto CHOICE
+goto :CHOICE
 
 :FIN
 echo Cliquer sur une touche pour retourner au menu
 pause>nul
-GOTO:menuLOOP
-::********************************************************************************************
+goto :menuLOOP
+
+
+::TODO NEED TO WORK ON THIS *****************************************************************
 :menu_[2] StartMyProcess
+cls
 Title Start Available programs
-cls & color 0B
 echo.
 echo                Choose which program you want to run ?
 echo.
@@ -90,33 +91,30 @@ Set /p "MyProcess=Write program name to run without extension> "
 set Available=Calc Chrome Notepad Skype
 echo Programs who can be started: %Available%
 echo.
-cls & color 0A
 Start "" /b /min /LOW %MyProcess%.exe>nul
 echo %MyProcess% is launched.
 pause>nul
-GOTO :menuLOOP
+goto :menuLOOP
 ::********************************************************************************************
 :menu_[3] KillMyProcess
+cls
 Title Kill Available programs
-cls & color 0B
 echo.
 echo                Choose which program you want to kill ?
 echo.
 set/p "process=Write program name to kill without extension> "
 set Available=Calc Chrome Notepad Skype
 echo Programs who can be killed: %Available%
-cls & color 0C
 Title Killing "%process%" ...
 echo.
-FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %Process%"') DO IF %%x == %Process% goto FOUND
-cls & color 0C
+FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %process%"') DO IF %%x == %process% goto FOUND
 echo %process% is not running.
 echo.
 echo %date% *** %time% >> %TmpFile%
 For %%a in (%process%) Do Call :KillMyProcess %%a
 Cmd /U /C Type %TmpFile% > %Resultat%
 Start %Resultat%
-GOTO :menuLOOP
+goto :menuLOOP
 ::*********************************************************************************************
 :KillMyProcess
 Taskkill /IM "%~1.exe" /F >> %TmpFile% 2>&1 >nul
