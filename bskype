@@ -8,14 +8,13 @@ If Exist %TmpFile% Del %TmpFile%
 If Exist %Resultat% Del %Resultat%
 
 set SkypeExe=Skype.exe
-set	SkypeName=Skype
+set SkypeName=Skype
 set SkypeUsername=Username
 set SkypePassword=Password
 set SkypeLogin=/username:%SkypeUsername% /password:%SkypePassword% /nosplash /minimized
-::set Available=Calc Chrome Notepad Skype
 
 :menulOOP
-Cls
+cls
 Title %Title%
 echo.
 echo.      ==========================Menu============================
@@ -42,16 +41,17 @@ ping 192.0.2.2 -n 1 -w 5000>nul 2>nul
 goto FOUND
 goto CHOICE
 
+
+:CHOICE
 cls
 Title AutoConnecting
-:CHOICE
 set /P Want2Connect=Connect with %SkypeUsername% [Y/N]?
 if /I "%Want2Connect%" EQU "Y" goto :AutoConnect
 if /I "%Want2Connect%" EQU "N" goto :FIN
 goto CHOICE
 
 :AutoConnect
-Cls
+cls
 Title AutoConnecting with %SkypeUsername%
 echo Killing any instance of %SkypeName%
 %SkypeExe% /Shutdown
@@ -95,7 +95,7 @@ Start "" /b /min /LOW %MyProcess%.exe>nul
 echo %MyProcess% is launched.
 pause>nul
 goto :menuLOOP
-::********************************************************************************************
+
 :menu_[3] KillMyProcess
 cls
 Title Kill Available programs
@@ -115,11 +115,11 @@ For %%a in (%process%) Do Call :KillMyProcess %%a
 Cmd /U /C Type %TmpFile% > %Resultat%
 Start %Resultat%
 goto :menuLOOP
-::*********************************************************************************************
+
 :KillMyProcess
 Taskkill /IM "%~1.exe" /F >> %TmpFile% 2>&1 >nul
 echo ***************************************************************************** >> %TmpFile%
 exit /b 
-::*********************************************************************************************
+
 :EOF
 EXIT
