@@ -1,8 +1,8 @@
 @echo off & cls
 Mode con cols=70 lines=10
-Title %title%
+Title %title_windows%
 
-Set title=%~n0
+Set title_windows=%~n0
 Set menu_text=Menu Example
 Set option_text=Choose an option or hit ENTER to quit:
 

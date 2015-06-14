@@ -1,7 +1,8 @@
 @echo off & cls
 Mode con cols=70 lines=10
-title %title%
+title %title_windows%
 
+Set title_windows=%~n0
 set title=Shutdown in X seconds
 
 echo ***************************
