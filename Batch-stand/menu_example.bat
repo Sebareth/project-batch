@@ -1,5 +1,7 @@
 @Echo off & cls
 Mode con cols=72 lines=10
+SET title=%~n0
+TITLE %title%
 
 set menu_text=Menu Example
 set option_text=Choose an option or hit ENTER to quit:
