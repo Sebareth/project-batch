@@ -1,7 +1,10 @@
-@echo off
-Title AUTO Nettoyage CCLeaner et Fermeture
-Mode con cols=72 lines=10
+@echo off & cls
+Mode con cols=70 lines=10
+Title %Title%
 
+Set Title=CCleaner CleanUP
+Set menu_title=AUTO clean-up with CCLeaner
+Set menu_option=Choose an option or hit ENTER to quit:
 Set CCleaner64=CCleaner64.exe
 Set CCleanerName=CCleaner
 
@@ -9,13 +12,13 @@ Set CCleanerName=CCleaner
 echo.
 echo.      ==========================Menu============================
 echo.
-echo		              AUTO clean-up with CCLeaner
+echo		              %menu_title%
 echo.
 for /f "tokens=1,2,* delims=_ " %%A in ('"findstr /b /c:":menu_" "%~f0""') do echo.           %%B  %%C
 echo.
 echo.      ==========================================================
 set option=
-echo. & set /p option=Choose an option or hit ENTER to quit: || GOTO :EOF
+echo. & set /p option=%menu_option% || GOTO :EOF
 echo. & call :menu_[%option%]
 GOTO:menuLOOP
 ::*********************************************************************************
@@ -33,8 +36,9 @@ goto FOUND
 goto CONFIRM
 
 :CONFIRM
+Set CONFIRM_title=Confirm to clean up your computer ?
 cls
-Title Do you want to clean up your computer ?
+Title %CONFIRM_title%
 
 set /P Confirm=Confirm to clean up with %CCleanerName% [Y/N]?
 if /I "%Restart%" EQU "Y" goto :CLEANUP
@@ -42,19 +46,21 @@ if /I "%Restart%" EQU "N" goto :menuLOOP
 goto CONFIRM
 
 :CLEANUP
+Set CCleanerFolder="%ProgramFiles%\CCleaner\"
 cls
-Title %CCleanerName% is starting to clean up your computer.
+Title %CCleanerName% will start to clean up...
 
-Set DossierCCleaner="%ProgramFiles%\CCleaner\"
-pushd %DossierCCleaner%
+
+pushd %CCleanerFolder%
 start "" /b /LOW %CCleaner64% /AUTO >nul
 popd
 pause>nul
 goto:menuLOOP
 
 :CLOSING
+Set CLOSING_Title=%CCleanerName% will be closed...
 cls
-Title Do you want to close %CCleanerName% ?
+Title %CLOSING_Title%?
 
 set /P Closing=Confirm to close %CCleanerName% [Y/N]?
 if /I "%Restart%" EQU "Y" goto :menu_[2] Close

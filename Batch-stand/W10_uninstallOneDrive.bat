@@ -1,5 +1,5 @@
 @Echo off & cls
-Mode con cols=72 lines=10
+Mode con cols=70 lines=10
 
 set x86="%SYSTEMROOT%\System32\OneDriveSetup.exe"
 set x64="%SYSTEMROOT%\SysWOW64\OneDriveSetup.exe"

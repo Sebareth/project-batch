@@ -1,10 +1,10 @@
-@Echo off & cls
-Mode con cols=72 lines=10
-TITLE %title%
+@echo off & cls
+Mode con cols=70 lines=10
+Title %title%
 
-set title=%~n0
-set menu_text=Menu Example
-set option_text=Choose an option or hit ENTER to quit:
+Set title=%~n0
+Set menu_text=Menu Example
+Set option_text=Choose an option or hit ENTER to quit:
 
 :menuLOOP
 echo.
@@ -17,7 +17,7 @@ echo.      ========================================================
 GOTO :OPTION
 
 :OPTION
-set option=
+Set option=
 echo. & set /p option=%option_text% || GOTO :EOF
 echo. & call :menu_[%option%] || GOTO :OPTION
 pause>NUL
