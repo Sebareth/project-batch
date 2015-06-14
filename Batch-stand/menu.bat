@@ -1,9 +1,8 @@
 @Echo off & cls
 Mode con cols=72 lines=10
 
-set menu_text=Test titre menu
+set menu_text=Menu Example
 set option_text=Choose an option or hit ENTER to quit:
-set option_incorrect=Please choose an option:
 
 :menuLOOP
 echo.
@@ -19,9 +18,8 @@ GOTO :OPTION
 :OPTION
 set option=
 echo. & set /p option=%option_text% || GOTO :EOF 2>NUL>NUL
-echo. & call :menu_[%option%] ||
+echo. & call :menu_[%option%] || GOTO :OPTION 2>NUL>NUL
 pause>NUL
-::GOTO:menuLOOP
 
 :EOF
 EXIT
