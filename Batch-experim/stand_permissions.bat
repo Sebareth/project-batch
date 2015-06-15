@@ -1,12 +1,10 @@
 @echo off & cls
-@title ADMINISTRATOR PASSWORD REQUIRED
+@title Detecting administrative permissions..
 mode con cols=72 lines=10
-
-::*****************************************************************
-@title Administrative permissions required. Detecting permissions..
+::stand_permissions.bat******************************************
 Set Detecting=Administrative permissions required. Detecting permissions..
 Set Success=Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
-Set Failure=Failure: Current permissions inadequate.
+Set Failure=Failure: 
 
 :detect
 echo %Detecting%
@@ -25,7 +23,7 @@ if not "%UserName%"=="Administrator" (
 	1>nul timeout /t 3 /nobreak
 ) else (
 	goto EOF
-)
+) 
 ::*****************************************************************
 :menuLOOP
 Set menu_text= Menu after admin mode

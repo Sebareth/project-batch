@@ -1,13 +1,11 @@
-@Echo off & cls
-Mode con cols=75 lines=15
-
-::*****************************************************************
-@title Administrative permissions required. Detecting permissions..
+@echo off & cls
+@title Detecting administrative permissions..
+mode con cols=75 lines=15
+::stand_permissions.bat******************************************
 Set Detecting=Administrative permissions required. Detecting permissions..
 Set Success=Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
-Set Failure=Failure: Current permissions inadequate.
+Set Failure=Failure: 
 
-::stand_permissions.bat
 :detect
 echo %Detecting%
     net session >nul 2>&1
@@ -29,15 +27,13 @@ if not "%UserName%"=="Administrator" (
 ::*****************************************************************
 :menuLOOP
 Set menu_text=Power option: Sleep, Shutdown, Restart, Session, Refresh
-Set cancel_text=Type X to cancel previous actions
-Set option_text=Choose an option:
+Set option_text=Choose an option or Type X to cancel:
 @title Windows Power Options
 cls
 echo.
 echo	 	%menu_text% 
 echo       ============================================================
 for /f "tokens=1,2,* delims=_ " %%A in ('"findstr /b /c:":menu_" "%~f0""') do echo.           %%B  %%C
-echo		%cancel_text%
 echo.      ============================================================
 Set option=
 echo. & set /p option=%option_text% || GOTO :EOF
@@ -45,6 +41,8 @@ echo. & call :menu_[%option%]
 pause>nul
 
 ::*****************************************************************
+Set closed=This script will be closed in few seconds.
+
 :menu_[1] Sleep
 cls
 title Sleep
@@ -53,17 +51,15 @@ echo.
 Set /p seconds=Sleep in ___ seconds ? :
 echo You choose to sleep in %seconds% seconds !
 goto CONFIRM
-
 :CONFIRM
 Set /P confirm=Confirm to sleep in %seconds% seconds[Y/N]?
 if /I "%confirm%" EQU "Y" goto :SLEEP
 if /I "%confirm%" EQU "N" goto :menuLOOP
-
 :SLEEP
 cls
 title Sleep in %seconds%
 SHUTDOWN -i /h /t %seconds% /c "Sleep in progress, you have %seconds% seconds."
-echo This script will be closed in few seconds.
+echo %closed%
 Ping 127.0.0.1 3>&1 >nul 2>&1
 ::1>nul timeout /t 3 /nobreak
 goto EOF
@@ -77,17 +73,15 @@ echo.
 Set /p seconds=Shutdown in ___ seconds ? :
 echo You choose to shutdown in %seconds% seconds !
 goto CONFIRM
-
 :CONFIRM
 Set /P confirm=Confirm to shutdown in %seconds% seconds[Y/N]?
 if /I "%confirm%" EQU "Y" goto :SHUTDOWN
 if /I "%confirm%" EQU "N" goto :menuLOOP
-
 :SHUTDOWN
 cls
 title Shutdown in %seconds%
 SHUTDOWN -i /s /t %seconds% /c "Shutdown in progress, you have %seconds% seconds."
-echo This script will be closed in few seconds.
+echo %closed%
 Ping 127.0.0.1 3>&1 >nul 2>&1
 ::1>nul timeout /t 3 /nobreak
 goto EOF
@@ -111,7 +105,7 @@ if /I "%confirm%" EQU "N" goto :menuLOOP
 cls
 title Restart in %seconds%
 SHUTDOWN -i /r /t %seconds% /c "Restart in progress, you have %seconds% seconds."
-echo This script will be closed in few seconds.
+echo %closed%
 Ping 127.0.0.1 3>&1 >nul 2>&1
 ::1>nul timeout /t 3 /nobreak
 goto EOF
@@ -127,7 +121,7 @@ echo You choose to close session in %seconds% seconds !
 goto CONFIRM
 
 :CONFIRM
-Set /P confirm=Confirm to Close session in %seconds% seconds[Y/N]?
+Set /P confirm=Confirm to close session in %seconds% seconds[Y/N]?
 if /I "%confirm%" EQU "Y" goto :SESSION
 if /I "%confirm%" EQU "N" goto :menuLOOP
 
@@ -135,7 +129,7 @@ if /I "%confirm%" EQU "N" goto :menuLOOP
 cls
 title Close session in %seconds%
 SHUTDOWN -i /l /f /t %seconds% /c "Close session in progress, you have %seconds% seconds."
-echo This script will be closed in few seconds.
+echo %closed%
 Ping 127.0.0.1 3>&1 >nul 2>&1
 ::1>nul timeout /t 3 /nobreak
 goto EOF
@@ -148,11 +142,10 @@ set Fully=Your desktop is now fully loaded!
 cls
 Title Refresh your Desktop
 
-:CHOICE1
+:QUESTION
 set /P Refresh=Do you want to FULL refresh %ExplorerExe% [Y/N]?
 if /I "%Refresh%" EQU "Y" goto :REFRESH
 if /I "%Refresh%" EQU "N" goto :menuLOOP
-goto :CHOICE1
 
 :REFRESH
 echo %Kill%
@@ -171,14 +164,39 @@ goto:menuLOOP
 
 ::*****************************************************************
 :: Not yet available
-::CANCEL
+:::CANCEL
 ::echo %cancel_text%
 ::Set /P "=cancel=Type X to cancel:" > nul
 ::if /I "%cancel%" EQU "X" goto :CANCEL
 ::SHUTDOWN /a
-::echo %% have been cancelled.
+::echo Action have been cancelled.
 ::pause
 ::goto:menuLOOP
+
+::*****************************************************************
+:: Not yet available 
+:: Launch a program.exe AFTER explorer.exe THEN display "FULLY running"
+:: THEN close program.exe
+::*****************************************************************
+:: Not yet available
+:: Launch a program.exe who will close explorer.exe THEN display 
+:: "explorer.exe closed by program.exe" for better performance, 
+:: closing program.exe will run explorer.exe
+::*****************************************************************
+:: Not yet available
+:: Use default duration -60 seconds or Custom duration :SECONDS
+:: Finish to kill few processes before to achieve action
+:: Display Type X notification to cancel action
+::******************************************************************
+:: Not yet available
+:: Cleanup after specific actions
+:: AUTO-cleanup or custom cleanup
+::******************************************************************
+:: Not yet available
+:: Txt file log for everyactions done with date and time
+::******************************************************************
+
+
 
 :PAUSE
 pause>nul
