@@ -4,19 +4,19 @@ mode con cols=72 lines=10
 
 ::*****************************************************************
 @title Administrative permissions required. Detecting permissions..
+Set Detecting=Administrative permissions required. Detecting permissions..
 Set Success=Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
 Set Failure=Failure: Current permissions inadequate.
 
 :detect
-Set detecting=Administrative permissions required. Detecting permissions..
-echo %detecting%
+echo %Detecting%
     net session >nul 2>&1
     if %errorLevel% == 0 (
         echo %Success%
 		pause>nul
 		goto:menuLOOP
     ) else (
-        echo Failure: Current permissions inadequate.
+        echo %Failure%
 		pause>nul
 		goto password
     )

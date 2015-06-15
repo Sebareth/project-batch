@@ -3,19 +3,20 @@ Mode con cols=75 lines=15
 
 ::*****************************************************************
 @title Administrative permissions required. Detecting permissions..
+Set Detecting=Administrative permissions required. Detecting permissions..
 Set Success=Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
 Set Failure=Failure: Current permissions inadequate.
 
+::stand_permissions.bat
 :detect
-Set detecting=Administrative permissions required. Detecting permissions..
-echo %detecting%
+echo %Detecting%
     net session >nul 2>&1
     if %errorLevel% == 0 (
-        echo Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
+        echo %Success%
 		pause>nul
 		goto:menuLOOP
     ) else (
-        echo Failure: Current permissions inadequate.
+        echo %Failure%
 		pause>nul
 		goto password
     )
@@ -117,30 +118,30 @@ Ping 127.0.0.1 3>&1 >nul 2>&1
 goto EOF
 
 ::*****************************************************************
-:menu_[4] Close current session
+:menu_[4] Close session
 cls
-title Close current session
+title Close session
 :SECONDS
 echo.
-Set /P seconds=Close current session in ___ seconds ? :
-echo You choose to close current session in %seconds% seconds !
+Set /P seconds=Close session in ___ seconds ? :
+echo You choose to close session in %seconds% seconds !
 goto CONFIRM
 
 :CONFIRM
-Set /P confirm=Confirm to Close current session in %seconds% seconds[Y/N]?
+Set /P confirm=Confirm to Close session in %seconds% seconds[Y/N]?
 if /I "%confirm%" EQU "Y" goto :SESSION
 if /I "%confirm%" EQU "N" goto :menuLOOP
 
 :SESSION
 cls
-title Close current session in %seconds%
-SHUTDOWN -i /l /f /t %seconds% /c "Close current session in progress, you have %seconds% seconds."
+title Close session in %seconds%
+SHUTDOWN -i /l /f /t %seconds% /c "Close session in progress, you have %seconds% seconds."
 echo This script will be closed in few seconds.
 Ping 127.0.0.1 3>&1 >nul 2>&1
 ::1>nul timeout /t 3 /nobreak
 goto EOF
 ::*****************************************************************
-:menu_[5] Refresh your Desktop
+:menu_[5] Refresh your Desktop (not yet)
 set ExplorerExe=explorer.exe
 set Kill=You choose to restart your desktop, this will take few seconds.
 set Running=Success! Your desktop has been restarted.
@@ -170,14 +171,15 @@ pause>nul
 goto:menuLOOP
 
 ::*****************************************************************
-:CANCEL
-echo %cancel_text%
-Set /P "=cancel=Type X to cancel:" > nul
-if /I "%cancel%" EQU "X" goto :CANCEL
+:: Not yet available
+::CANCEL
+::echo %cancel_text%
+::Set /P "=cancel=Type X to cancel:" > nul
+::if /I "%cancel%" EQU "X" goto :CANCEL
 ::SHUTDOWN /a
-echo %% have been cancelled.
-pause
-goto:menuLOOP
+::echo %% have been cancelled.
+::pause
+::goto:menuLOOP
 
 :PAUSE
 pause>nul
