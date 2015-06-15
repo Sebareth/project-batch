@@ -1,4 +1,5 @@
 @echo off & cls
+@title Uninstall OneDrive from fresh Windows 10 install...
 Mode con cols=72 lines=10
 ::*********************************************************************************
 Set program_name=OneDrive
@@ -55,11 +56,14 @@ echo.
 REG DELETE "HKEY_CLASSES_ROOT\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f > NUL 2>&1
 REG DELETE "HKEY_CLASSES_ROOT\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f > NUL 2>&1
 pause>NUL
-
+::*****************************************************************
 :menu_[2] Cleanup missing directories/files (not available)
+cls
+title Cleanup missing dirrectores/files (not available)
 goto NOTYET
 ::pause>nul
 
+::*****************************************************************
 :NOTYET
 Set notyet=Feature not yet available
 cls
@@ -68,5 +72,6 @@ echo You will be redirected to main menu.
 pause
 goto:menuLOOP
 
-::EOF
-::EXIT
+::*****************************************************************
+:EOF
+EXIT

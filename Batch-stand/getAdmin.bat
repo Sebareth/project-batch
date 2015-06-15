@@ -1,10 +1,12 @@
 @echo off & cls
+@title Checking administrator privileges...
 Mode con cols=72 lines=10
-::*********************************************************************************
+::*****************************************************************
 echo.
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
-	echo Administrator PRIVILEGES Detected!
+	echo This script is running as administrator privilege.
+	echo You will be redirected to main menu in few seconds.
 	Ping 127.0.0.1 3>&1 >nul
 	goto NEXT
 ) ELSE (
@@ -17,14 +19,14 @@ IF %ERRORLEVEL% EQU 0 (
 	Ping 127.0.0.1 3>&1 >nul 2>&1
 	goto EOF
 )
-::*********************************************************************************
+::*****************************************************************
 :NEXT
 cls
 title Welcome, let's continue.
 rem echo.
 echo Screen cleaned!
-echo.
-pause rem >nul
+pause
+::pause>nul
 
 :EOF
-EXIT
+EXIT /B

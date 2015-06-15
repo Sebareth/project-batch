@@ -1,4 +1,5 @@
 @echo off & cls
+@title LOOP menu example...
 Mode con cols=72 lines=10
 ::*********************************************************************************
 Set menu_text=Menu Example

@@ -1,4 +1,5 @@
 @echo off & cls
+@title CCLeaner auto...
 Mode con cols=72 lines=10
 ::*********************************************************************************
 Set menu_title=AUTO clean-up with CCLeaner
