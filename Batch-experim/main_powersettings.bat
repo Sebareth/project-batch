@@ -13,7 +13,6 @@ echo %Detecting%
     net session >nul 2>&1
     if %errorLevel% == 0 (
         echo %Success%
-		pause>nul
 		goto:menuLOOP
     ) else (
         echo %Failure%
