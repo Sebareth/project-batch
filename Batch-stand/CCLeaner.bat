@@ -1,13 +1,11 @@
 @echo off & cls
-Mode con cols=70 lines=10
-Title %title_windows%
-
-Set title_windows=%~n0
+Mode con cols=72 lines=10
+::*********************************************************************************
 Set menu_title=AUTO clean-up with CCLeaner
 Set menu_option=Choose an option or hit ENTER to quit:
 Set CCleaner64=CCleaner64.exe
 Set CCleanerName=CCleaner
-
+::*********************************************************************************
 :menuLOOP
 echo.
 echo.      ==========================Menu============================
@@ -25,7 +23,7 @@ GOTO:menuLOOP
 :menu_[1] Clean up
 cls
 Title  %CCleanerName% Status...
-FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %CCleaner64%"') DO IF %%x == %CCleaner64% goto FOUND
+for /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %CCleaner64%"') DO IF %%x == %CCleaner64% goto FOUND
 echo %CCleanerName% is not running.
 echo Cliquer sur une touche pour lancer "%CCleanerName%"
 pause>nul
