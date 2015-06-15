@@ -4,7 +4,7 @@ mode con cols=72 lines=10
 
 ::*****************************************************************
 if not "%UserName%"=="Administrator" (
-	runas /env /user:%COMPUTERNAME%\%UserName% %0 %* 
+	runas /user:%COMPUTERNAME%\%UserName% %0 %* 
 	1>nul timeout /t 3 /nobreak
 ) ELSE (
 goto:menuLOOP
@@ -12,7 +12,7 @@ goto:menuLOOP
 ::*****************************************************************
 :menuLOOP
 Set menu_text= Menu after admin mode
-Set option_text=Choose an option or hit ENTER to quit:
+Set option_text=Choose an option:
 @echo off & cls
 @title Batch Utility
 echo.
