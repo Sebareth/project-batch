@@ -5,7 +5,7 @@ Mode con cols=72 lines=10
 echo.
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
-	echo This script is running as administrator privilege.
+	echo This script is running with administrator privilege.
 	echo You will be redirected to main menu in few seconds.
 	Ping 127.0.0.1 3>&1 >nul
 	goto NEXT
