@@ -3,11 +3,29 @@
 mode con cols=72 lines=10
 
 ::*****************************************************************
+@title Administrative permissions required. Detecting permissions..
+Set Success=Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
+Set Failure=Failure: Current permissions inadequate.
+
+:detect
+Set detecting=Administrative permissions required. Detecting permissions..
+echo %detecting%
+    net session >nul 2>&1
+    if %errorLevel% == 0 (
+        echo %Success%
+		pause>nul
+		goto:menuLOOP
+    ) else (
+        echo Failure: Current permissions inadequate.
+		pause>nul
+		goto password
+    )
+:password
 if not "%UserName%"=="Administrator" (
-	runas /user:%COMPUTERNAME%\%UserName% %0 %* 
+	runas /user:%COMPUTERNAME%\%UserName% %0 %*
 	1>nul timeout /t 3 /nobreak
-) ELSE (
-goto:menuLOOP
+) else (
+	goto EOF
 )
 ::*****************************************************************
 :menuLOOP

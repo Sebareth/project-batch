@@ -1,36 +1,48 @@
-@echo off & cls
-@title Shutdown in X seconds...
-Mode con cols=72 lines=10
+@Echo off & cls
+Mode con cols=75 lines=15
+
 ::*****************************************************************
-::if not "%UserName%"=="Administrator" (
-	::runas /user:%COMPUTERNAME%\%UserName% %0 %* 
-	::1>nul timeout /t 3 /nobreak
-::) ELSE (
-::goto:menuLOOP
-:)
+@title Administrative permissions required. Detecting permissions..
+Set Success=Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
+Set Failure=Failure: Current permissions inadequate.
+
+:detect
+Set detecting=Administrative permissions required. Detecting permissions..
+echo %detecting%
+    net session >nul 2>&1
+    if %errorLevel% == 0 (
+        echo %Success%
+		pause>nul
+		goto:menuLOOP
+    ) else (
+        echo Failure: Current permissions inadequate.
+		pause>nul
+		goto password
+    )
+:password
+if not "%UserName%"=="Administrator" (
+	runas /user:%COMPUTERNAME%\%UserName% %0 %*
+	1>nul timeout /t 3 /nobreak
+) else (
+	goto EOF
+) 
 ::*****************************************************************
-::Shutdown in X seconds
-::Restart
-::Sleep
-::Refresh Explorer.exe
-::
 :menuLOOP
 Set menu_text=Power option: Sleep, Shutdown, Restart, Session, Refresh
-Set cancel_text=To cancel any previous actions, type X
+Set cancel_text=Type X to cancel previous actions
 Set option_text=Choose an option:
-@echo off & cls
-@title Batch Utility
+@title Windows Power Options
+cls
 echo.
-echo.      ========================Menu============================
-echo		%menu_text% 
-echo.
+echo	 	%menu_text% 
+echo       ============================================================
 for /f "tokens=1,2,* delims=_ " %%A in ('"findstr /b /c:":menu_" "%~f0""') do echo.           %%B  %%C
 echo		%cancel_text%
-echo.      ========================================================
+echo.      ============================================================
 Set option=
 echo. & set /p option=%option_text% || GOTO :EOF
 echo. & call :menu_[%option%]
-pause
+pause>nul
 
 ::*****************************************************************
 :menu_[1] Sleep
@@ -105,24 +117,24 @@ Ping 127.0.0.1 3>&1 >nul 2>&1
 goto EOF
 
 ::*****************************************************************
-:menu_[4] Change current session
+:menu_[4] Close current session
 cls
-title Change current session
+title Close current session
 :SECONDS
 echo.
-Set /P seconds=Change current session in ___ seconds ? :
-echo You choose to change current session in %seconds% seconds !
+Set /P seconds=Close current session in ___ seconds ? :
+echo You choose to close current session in %seconds% seconds !
 goto CONFIRM
 
 :CONFIRM
-Set /P confirm=Confirm to change current session in %seconds% seconds[Y/N]?
+Set /P confirm=Confirm to Close current session in %seconds% seconds[Y/N]?
 if /I "%confirm%" EQU "Y" goto :SESSION
 if /I "%confirm%" EQU "N" goto :menuLOOP
 
 :SESSION
 cls
-title Change current session in %seconds%
-SHUTDOWN -i /l /f /t %seconds% /c "Change current session in progress, you have %seconds% seconds."
+title Close current session in %seconds%
+SHUTDOWN -i /l /f /t %seconds% /c "Close current session in progress, you have %seconds% seconds."
 echo This script will be closed in few seconds.
 Ping 127.0.0.1 3>&1 >nul 2>&1
 ::1>nul timeout /t 3 /nobreak
@@ -172,4 +184,6 @@ pause>nul
 goto:menuLOOP
 
 :EOF
-EXIT
+pause>nul
+EXIT /B
+	
