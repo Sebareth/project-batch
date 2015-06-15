@@ -11,7 +11,7 @@ Set detecting=Administrative permissions required. Detecting permissions..
 echo %detecting%
     net session >nul 2>&1
     if %errorLevel% == 0 (
-        echo %Success%
+        echo Success: Administrative permissions confirmed for %COMPUTERNAME%\%UserName% 
 		pause>nul
 		goto:menuLOOP
     ) else (
