@@ -195,7 +195,11 @@ goto:menuLOOP
 :: Not yet available
 :: Txt file log for everyactions done with date and time
 ::******************************************************************
-
+:: Not yet available
+:: Add countdown timer
+:: - progressbar
+:: - number
+::******************************************************************
 
 
 :PAUSE
